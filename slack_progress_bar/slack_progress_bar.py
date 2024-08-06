@@ -69,15 +69,15 @@ class SlackProgressBar:
 
         self._chat_update(
             message=(
-                ":white_check_mark: Loading complete!"
+                ":white_check_mark: 빌드 성공!"
                 if self._value == self._total
                 else ""
             )
         )
 
     def error(self) -> None:
-        """Set the bar to an error state to indicate loading has stopped."""
-        self._chat_update(message=":warning: ERROR: Loading stopped!")
+        """Set the bar to an error state to indicate build has stopped."""
+        self._chat_update(message=":warning: ERROR: 빌드 중단!")
 
     def chat_update(self, message: str = "") -> None:
         """Send the progress bar with a message to Slack if notify is True.

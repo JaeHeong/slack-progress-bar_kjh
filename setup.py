@@ -4,11 +4,11 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name="slack_progress_bar",
-    version="2.0.0",
-    author="Michael Lizzi",
-    author_email="michael.lizzi@hotmail.com",
-    description="A Python package for displaying progress bars in Slack messages.",
+    name="slack_progress_bar_kjh",
+    version="1.0.0",
+    author="jaehyeong.kim",
+    author_email="rlawogud970301@gmail.com",
+    description="Modify from Michael Lizzi's slack_progress_bar. Thank you.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/mlizzi/slack-progress-bar",

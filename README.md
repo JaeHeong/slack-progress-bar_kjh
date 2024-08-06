@@ -11,7 +11,7 @@ A Python library for adding a progress bar to a Slack Bot, updated for Python 3.
 
 ## Installation
 ```bash
-pip install slack-progress-bar
+pip install slack-progress-bar-kjh
 ```
 
 ## Overview

@@ -3,6 +3,12 @@
 # Modification
 - Can use chat_update() => chat_update(str), a str is placed next to the progress bar.
 - Modify progress bar
+- add custom slack emoji
+  - walker = ':walking_amongus:'  # 걷고 있는 이모지
+  - left = ':left_spot:'  # 지나간 곳
+  - right = ':right_spot:'  # 아직 안 간 곳
+  - success = ':dead_amongus:'  # 완료 시 이모지
+  - target = ':monster_amongus:'  # 목표 지점
 
 # slack-progress-bar [[Downloads]](https://pypi.org/project/slack-progress-bar-kjh/)
 A Python library for adding a progress bar to a Slack Bot, updated for Python 3.9+.

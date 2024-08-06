@@ -50,11 +50,11 @@ class SlackProgressBar:
         amount_incomplete = self._bar_width - amount_complete
 
         # 커스텀 이모지 설정
-        walker = ':walking:'  # 걷고 있는 이모지
-        left = ':left:'  # 지나간 곳
-        right = ':right:'  # 아직 안 간 곳
-        success = ':success:'  # 완료 시 이모지
-        target = ':target:'  # 목표 지점
+        walker = ':walking_amongus:'  # 걷고 있는 이모지
+        left = ':left_spot:'  # 지나간 곳
+        right = ':right_spot:'  # 아직 안 간 곳
+        success = ':dead_amongus:'  # 완료 시 이모지
+        target = ':monster_amongus:'  # 목표 지점
 
         # 현재 진행 상태 결정
         if self._value == self._total:

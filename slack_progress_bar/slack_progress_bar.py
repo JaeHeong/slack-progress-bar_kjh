@@ -79,7 +79,7 @@ class SlackProgressBar:
         """Set the bar to an error state to indicate loading has stopped."""
         self._chat_update(message=":warning: ERROR: Loading stopped!")
 
-    def _chat_update(self, message: str = "") -> None:
+    def chat_update(self, message: str = "") -> None:
         """Send the progress bar with a message to Slack if notify is True.
 
         Parameters

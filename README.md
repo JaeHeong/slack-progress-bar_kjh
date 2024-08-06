@@ -1,4 +1,3 @@
-
 # slack-progress-bar [![Downloads](https://static.pepy.tech/badge/slack-progress-bar)](https://pepy.tech/project/slack-progress-bar)
 A Python library for adding a progress bar to a Slack Bot, updated for Python 3.9+.
 

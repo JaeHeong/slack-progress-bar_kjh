@@ -11,7 +11,7 @@ setup(
     description="Modify from Michael Lizzi's slack_progress_bar. Thank you.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/mlizzi/slack-progress-bar",
+    url="https://github.com/JaeHeong/slack-progress-bar_kjh",
     packages=find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",

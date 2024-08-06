@@ -2,6 +2,7 @@ from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 
 class SlackProgressBar:
+
     def __init__(self, token: str, user_id: str, total: int, value: int = 0, bar_width: int = 20, notify: bool = True) -> None:
         """A progress bar to use with Slack."""
         self._client = WebClient(token=token)
@@ -27,6 +28,7 @@ class SlackProgressBar:
             raise ValueError(f"Update value {value} too large for progress bar of size {self._total}")
 
         self._value = value
+        self.chat_update()  # 진행 상황 갱신 후 Slack에 업데이트
 
     def error(self) -> None:
         """Set the bar to an error state to indicate loading has stopped."""
@@ -43,8 +45,24 @@ class SlackProgressBar:
                 self._client.chat_update(channel=self._channel_id, ts=self._ts, text=text)
 
     def _as_string(self) -> str:
-        """Get the progress bar visualized as a string."""
+        """Get the progress bar visualized as a string with a walker, target, and progress."""
         amount_complete = round(self._bar_width * self._value / self._total)
         amount_incomplete = self._bar_width - amount_complete
-        bar = amount_complete * chr(9608) + amount_incomplete * chr(9601)
+
+        # 커스텀 이모지 설정
+        walker = ':walking:'  # 걷고 있는 이모지
+        left = ':left:'  # 지나간 곳
+        right = ':right:'  # 아직 안 간 곳
+        success = ':success:'  # 완료 시 이모지
+        target = ':target:'  # 목표 지점
+
+        # 현재 진행 상태 결정
+        if self._value == self._total:
+            # 100%에 도달했을 때 완료 이모지 표시
+            bar = (left * (amount_complete - 1)) + success
+        else:
+            # 진행 바 생성
+            bar = (left * (amount_complete - 1)) + walker + (right * amount_incomplete) + target
+
         return f"{bar} {self._value}/{self._total} ({int(self._value / self._total * 100)}%)"
+

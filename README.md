@@ -1,4 +1,10 @@
-# slack-progress-bar [![Downloads](https://static.pepy.tech/badge/slack-progress-bar-kjh)](https://pepy.tech/project/slack-progress-bar-kjh)
+# Modified from https://github.com/mlizzi/slack-progress-bar
+
+# Modification
+- Can use chat_update() => chat_update(str), a str is placed next to the progress bar.
+- Modify progress bar
+
+# slack-progress-bar [![Downloads]](https://pepy.tech/project/slack-progress-bar-kjh)
 A Python library for adding a progress bar to a Slack Bot, updated for Python 3.9+.
 
 ![animated-gif](https://imgur.com/WkC70eR.gif)

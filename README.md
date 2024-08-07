@@ -21,7 +21,7 @@ pip install slack-progress-bar-kjh
 4. 같은 페이지에서 생성된 'Bot User OAuth Token'을 복사하여 `SlackProgressBar` 클래스의 `token` 필드에 사용하세요.
 5. Slack 워크스페이스로 이동하여 회원 ID를 찾으세요(프로필을 클릭한 다음 '[...] -> Copy Member ID'를 클릭하여 찾을 수 있습니다). 이를 `SlackProgressBar` 클래스의 `user_id` 필드에 사용하세요. (필요에 따라 채널ID도 사용 가능)
 6. 위에서 찾은 `token`과 `user_id` 또는 채널 ID를 사용하여 진행 표시줄을 생성하고 업데이트하세요.
-7. 커스텀 이모지를 추가하세요.
+7. 커스텀 이모지를 추가하세요. [[기본 이모지 gif 다운로드]](https://github.com/JaeHeong/slack-progress-bar_kjh/tree/main/emoji)
     - ※ 필요 커스텀 이모지 (이름은 같아야 함)
         1. :walking_amongus: # 걷고 있는 이모지
         2. :left_spot: # 지나간 곳

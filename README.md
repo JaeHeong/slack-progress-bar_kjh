@@ -10,13 +10,7 @@ pip install slack-progress-bar-kjh
 
 ## 개요
 - 슬랙으로 작업 진행 상황을 시각화하여 보여줄 수 있음
-- 슬랙 커스텀 이모지를 활용하여 다양하게 표현 가능
-  - 커스텀 이모지
-  - walker = ':walking_amongus:'  # 걷고 있는 이모지
-  - left = ':left_spot:'  # 지나간 곳
-  - right = ':right_spot:'  # 아직 안 간 곳
-  - success = ':dead_amongus:'  # 완료 시 이모지
-  - target = ':monster_amongus:'  # 목표 지점
+- 슬랙 커스텀 이모지를 활용하여 다양하게 표현 가능 (무엇이든 가능, 눈사람 굴리는 모습, 모래성 쌓는 모습 등...)
 - 어떤 작업이 진행 중인지 함께 보여줄 수 있음
 
 
@@ -27,6 +21,13 @@ pip install slack-progress-bar-kjh
 4. 같은 페이지에서 생성된 'Bot User OAuth Token'을 복사하여 `SlackProgressBar` 클래스의 `token` 필드에 사용하세요.
 5. Slack 워크스페이스로 이동하여 회원 ID를 찾으세요(프로필을 클릭한 다음 '[...] -> Copy Member ID'를 클릭하여 찾을 수 있습니다). 이를 `SlackProgressBar` 클래스의 `user_id` 필드에 사용하세요. (필요에 따라 채널ID도 사용 가능)
 6. 위에서 찾은 `token`과 `user_id` 또는 채널 ID를 사용하여 진행 표시줄을 생성하고 업데이트하세요.
+7. 커스텀 이모지를 추가하세요.
+  - 필요 커스텀 이모지 (이름은 같아야 함)
+  - :walking_amongus: # 걷고 있는 이모지
+  - :left_spot: # 지나간 곳
+  - :right_spot: # 아직 안 간 곳
+  - :dead_amongus: # 완료 시 이모지
+  - :monster_amongus: # 목표 지점
 ```python
 import os
 from slack_progress_bar import SlackProgressBar

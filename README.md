@@ -55,8 +55,8 @@ for i in range(100):
 
 
 # Docker를 활용하여 젠킨스 빌드 상황 실시간 추적
-1. 젠킨스 워커 노드에 Docker로 빌드 상황을 추적하는 서비스를 만듦 (실제 작업 Dockerfile과 구분하기 위해 Jenkins 폴더에 생성, 젠킨스에서 Jenkinsfile path를 변경해주어야 함)
-    1-1. Jenkins/Dockerfile 생성
+## 젠킨스 워커 노드에 Docker로 빌드 상황을 추적하는 서비스를 만듦 (실제 작업 Dockerfile과 구분하기 위해 Jenkins 폴더에 생성, 젠킨스에서 Jenkinsfile path를 변경해주어야 함)
+- Jenkins/Dockerfile 생성
 ```Dockerfile
 # Dockerfile
 # Dockerfile
@@ -77,7 +77,7 @@ EXPOSE 5000
 # Command to run the script
 CMD ["python", "progress_tracker.py"]
 ```
-    1-2. Jenkins/progress_tracker.py 생성
+- Jenkins/progress_tracker.py 생성
 ```python
 # progress_tracker.py
 import os
@@ -125,7 +125,7 @@ def update():
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
 ```
-    1-3. Jenkins/Jenkinsfile 생성
+- Jenkins/Jenkinsfile 생성
 ```groovy
 // Jenkinsfile
 pipeline {

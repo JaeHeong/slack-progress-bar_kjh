@@ -22,12 +22,12 @@ pip install slack-progress-bar-kjh
 5. Slack 워크스페이스로 이동하여 회원 ID를 찾으세요(프로필을 클릭한 다음 '[...] -> Copy Member ID'를 클릭하여 찾을 수 있습니다). 이를 `SlackProgressBar` 클래스의 `user_id` 필드에 사용하세요. (필요에 따라 채널ID도 사용 가능)
 6. 위에서 찾은 `token`과 `user_id` 또는 채널 ID를 사용하여 진행 표시줄을 생성하고 업데이트하세요.
 7. 커스텀 이모지를 추가하세요.
-  - 필요 커스텀 이모지 (이름은 같아야 함)
-  - :walking_amongus: # 걷고 있는 이모지
-  - :left_spot: # 지나간 곳
-  - :right_spot: # 아직 안 간 곳
-  - :dead_amongus: # 완료 시 이모지
-  - :monster_amongus: # 목표 지점
+    - ※ 필요 커스텀 이모지 (이름은 같아야 함)
+        1. :walking_amongus: # 걷고 있는 이모지
+        2. :left_spot: # 지나간 곳
+        3. :right_spot: # 아직 안 간 곳
+        4. :dead_amongus: # 완료 시 이모지
+        5. :monster_amongus: # 목표 지점
 ```python
 import os
 from slack_progress_bar import SlackProgressBar
@@ -56,7 +56,7 @@ for i in range(100):
 
 # Docker를 활용하여 젠킨스 빌드 상황 실시간 추적
 1. 젠킨스 워커 노드에 Docker로 빌드 상황을 추적하는 서비스를 만듦 (실제 작업 Dockerfile과 구분하기 위해 Jenkins 폴더에 생성, 젠킨스에서 Jenkinsfile path를 변경해주어야 함)
-  1-1. Jenkins/Dockerfile 생성
+    1-1. Jenkins/Dockerfile 생성
 ```Dockerfile
 # Dockerfile
 # Dockerfile
@@ -77,7 +77,7 @@ EXPOSE 5000
 # Command to run the script
 CMD ["python", "progress_tracker.py"]
 ```
-  1-2. Jenkins/progress_tracker.py 생성
+    1-2. Jenkins/progress_tracker.py 생성
 ```python
 # progress_tracker.py
 import os
@@ -125,7 +125,7 @@ def update():
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
 ```
-  1-3. Jenkins/Jenkinsfile 생성
+    1-3. Jenkins/Jenkinsfile 생성
 ```groovy
 // Jenkinsfile
 pipeline {

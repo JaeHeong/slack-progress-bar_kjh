@@ -55,7 +55,7 @@ for i in range(100):
 
 
 # Docker를 활용하여 젠킨스 빌드 상황 실시간 추적
-## 젠킨스 워커 노드에 Docker로 빌드 상황을 추적하는 서비스를 만듦 (실제 작업 Dockerfile과 구분하기 위해 Jenkins 폴더에 생성, 젠킨스에서 Jenkinsfile path를 변경해주어야 함)
+### 젠킨스 워커 노드에 Docker로 빌드 상황을 추적하는 서비스를 만듦 (실제 작업 Dockerfile과 구분하기 위해 Jenkins 폴더에 생성, 젠킨스에서 Jenkinsfile path를 변경해주어야 함)
 - Jenkins/Dockerfile 생성
 ```Dockerfile
 # Dockerfile

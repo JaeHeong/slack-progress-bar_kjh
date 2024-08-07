@@ -5,7 +5,7 @@ with open("README.md", "r", encoding='UTF-8') as fh:
 
 setup(
     name="slack_progress_bar_kjh",
-    version="1.0.4",
+    version="1.0.5",
     author="jaehyeong.kim",
     author_email="rlawogud970301@gmail.com",
     description="Modify from Michael Lizzi's slack_progress_bar. Thank you.",

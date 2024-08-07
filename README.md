@@ -1,7 +1,7 @@
 # slack-progress-bar [[Downloads]](https://pypi.org/project/slack-progress-bar-kjh/)
 진행상황을 시각화하여 슬랙으로 보여주는 파이썬 라이브러리 (파이썬 3.9이상)
 
-![animated-gif](/assets/slack-progress-bar.gif)
+![animated-gif](https://github.com/JaeHeong/slack-progress-bar_kjh/blob/main/assets/slack-progress-bar.gif)
 
 ## 설치 방법
 ```bash

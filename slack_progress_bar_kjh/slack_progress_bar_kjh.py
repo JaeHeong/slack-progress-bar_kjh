@@ -1,7 +1,7 @@
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 
-class SlackProgressBar:
+class SlackProgressBarKjh:
 
     def __init__(self, token: str, user_id: str, total: int, value: int = 0, bar_width: int = 20, notify: bool = True) -> None:
         """A progress bar to use with Slack."""
@@ -25,14 +25,22 @@ class SlackProgressBar:
     def update(self, value: int) -> None:
         """Update the current progress bar on Slack."""
         if value > self._total:
-            raise ValueError(f"Update value {value} too large for progress bar of size {self._total}")
-
-        self._value = value
+            value = self._total
+        else:
+            self._value = value
         self.chat_update()  # 진행 상황 갱신 후 Slack에 업데이트
 
-    def error(self) -> None:
-        """Set the bar to an error state to indicate loading has stopped."""
-        self.chat_update(message=":warning: ERROR: Loading stopped!")
+    def add_progress(self, value: int) -> None:
+        """Add to the current progress bar on Slack."""
+        if self._value + value > self._total:
+            self._value = self._total
+        else:
+            self._value += value
+        self.chat_update()  # 진행 상황 갱신 후 Slack에 업데이트
+
+    def get_progress(self) -> int:
+        """Get the current progress."""
+        return self._value
 
     def chat_update(self, message: str = "") -> None:
         """Send the progress bar with a message to Slack if notify is True."""
@@ -43,6 +51,10 @@ class SlackProgressBar:
                 self._ts = res["ts"]
             else:
                 self._client.chat_update(channel=self._channel_id, ts=self._ts, text=text)
+
+    def error(self) -> None:
+        """Set the bar to an error state to indicate loading has stopped."""
+        self.chat_update(message=":warning: ERROR: Loading stopped!")
 
     def _as_string(self) -> str:
         """Get the progress bar visualized as a string with a walker, target, and progress."""

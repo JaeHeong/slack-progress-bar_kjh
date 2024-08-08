@@ -268,16 +268,170 @@ pipeline {
 #### 2-2.sh "(docker build --progress=plain -t test:latest . 2>&1) | tee Jenkins/build.log"로 bulid.log에 로그를 기록하고 실시간으로 감시해서 위의 컨테이너에게 알려주는 서비스 추가
 ```Dockerfile
 # docker-compose.yml
+version: '3.8'
+services:
+  tracker:
+    build:
+      context: .
+      dockerfile: Dockerfile.tracker
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+      - SLACK_MEMBER_ID=${SLACK_MEMBER_ID}
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./build.log:/app/build.log
+    container_name: tracker
 
+  monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile.monitor
+    volumes:
+      - ./build.log:/app/build.log
+      - ../Dockerfile:/app/Dockerfile
+    depends_on:
+      - tracker
+    environment:
+      - TRACKER_HOST=tracker
+    container_name: monitor
 ```
 ```Dockerfile
 # Dockerfile.tracker
+# Dockerfile
+FROM python:3.9-slim
 
+# Set working directory
+WORKDIR /app
+
+# Copy necessary files
+COPY progress_tracker.py /app/
+
+# Install dependencies (https://pypi.org/project/slack-progress-bar-kjh/)
+RUN pip install slack-progress-bar-kjh flask
+
+# Expose port if needed
+EXPOSE 5000
+
+# Command to run the script
+CMD ["python", "progress_tracker.py"]
 ```
 ```Dockerfile
 # Dockerfile.monitor
+# Use a lightweight Python image
+FROM python:3.9-slim
 
+# Install required packages
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+RUN pip install requests watchdog
+
+# Create app directory
+WORKDIR /app
+
+# Copy the monitoring script to the container
+COPY monitor.py .
+
+# Command to run the monitoring script
+CMD ["python", "monitor.py"]
 ```
 ```python
 # monitor.py
+import re
+import os
+import time
+import json
+import math
+import requests
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+
+class LogHandler(FileSystemEventHandler):
+    def __init__(self, log_file, endpoint, count_dockerfile):
+        self.log_file = log_file
+        self.endpoint = endpoint
+        self.position = 0
+        self.last_value = None  # 마지막 값을 저장하기 위한 변수
+        self.y = 0  # y 값을 저장하기 위한 변수
+        self.last_step_number = count_dockerfile
+
+    def on_modified(self, event):
+        if event.src_path == self.log_file:
+            with open(self.log_file, 'r') as f:
+                # Move the pointer to the last read position
+                f.seek(self.position)
+                # Read new lines
+                new_lines = f.readlines()
+                # Update the position
+                self.position = f.tell()
+
+                for line in new_lines:
+                    match = re.match(r'^#(\d+)', line)
+                    if match:
+                        x = int(match.group(1))
+                        if x == self.last_value:
+                            self.y += 0.01
+                            self.send_log(self.y)
+                            continue
+                        self.last_value = x  # 마지막 값 업데이트
+                        self.y = self.y_value_for_step(x, self.last_step_number)
+                        self.send_log(self.y)
+
+    def send_log(self, value):
+        rounded_value = round(value, 2)  # 소수점 둘째 자리까지 반올림
+        data = {"progress": rounded_value, "message": "*Dockerfile 빌드 중* :loading:"}
+        headers = {'Content-Type': 'application/json'}
+        try:
+            response = requests.post(self.endpoint, headers=headers, data=json.dumps(data))
+            if response.status_code != 200:
+                print(f"Failed to send log: {response.status_code}, {response.text}")
+        except Exception as e:
+            print(f"Error sending log: {e}")
+            
+    def y_value_for_step(self, step_number, last_step_number):
+        if last_step_number == 0:
+            return 0
+        return (90 / last_step_number) * step_number
+
+def count_dockerfile_steps(dockerfile_path):
+    # 주요 Dockerfile 명령어 목록
+    dockerfile_commands = {
+        'FROM', 'RUN', 'CMD', 'LABEL', 'MAINTAINER', 'EXPOSE',
+        'ENV', 'ADD', 'COPY', 'ENTRYPOINT', 'VOLUME', 'USER',
+        'WORKDIR', 'ARG', 'ONBUILD', 'STOPSIGNAL', 'HEALTHCHECK', 'SHELL'
+    }
+    
+    step_count = 0
+    
+    # Dockerfile 읽기
+    with open(dockerfile_path, 'r') as file:
+        lines = file.readlines()
+        for line in lines:
+            # 주석과 공백 라인을 무시
+            line = line.strip()
+            if line.startswith('#') or not line:
+                continue
+            
+            # 명령어가 라인의 시작 부분에 있는지 확인
+            if any(line.startswith(command) for command in dockerfile_commands):
+                step_count += 1
+    
+    return step_count
+
+if __name__ == "__main__":
+    log_file = '/app/build.log'
+    tracker_host = os.getenv('TRACKER_HOST', 'localhost')
+    endpoint = f'http://{tracker_host}:5000/update-all'
+    count_dockerfile = count_dockerfile_steps('/app/Dockerfile')
+
+    event_handler = LogHandler(log_file, endpoint, count_dockerfile)
+    observer = Observer()
+    observer.schedule(event_handler, path=log_file, recursive=False)
+    observer.start()
+
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        observer.stop()
+    observer.join()
 ```

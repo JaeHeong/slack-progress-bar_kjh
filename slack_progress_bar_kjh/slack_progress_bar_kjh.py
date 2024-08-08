@@ -20,7 +20,7 @@ class SlackProgressBarKjh:
             raise ValueError("Enter valid user_id (Slack Profile -> Copy member ID) or check token!")
 
         if self.notify:
-            self.chat_update()
+            self.chat_update("*로딩 중...*")
 
     def update(self, value: int) -> None:
         """Update the current progress bar on Slack."""

@@ -57,8 +57,8 @@ for i in range(100):
 ```
 
 
-# 1.Docker를 활용하여 젠킨스 빌드 상황 실시간 추적
-#### 1-1.젠킨스 워커 노드에 Docker로 빌드 상황을 추적하는 서비스를 만듦 (실제 작업 Dockerfile과 구분하기 위해 Jenkins 폴더에 생성, 젠킨스에서 Jenkinsfile path를 변경해주어야 함)
+# 1.Docker를 활용하여 젠킨스 빌드 상황 실시간 추적 (실제 작업 Dockerfile과 구분하기 위해 Jenkins 폴더에 생성, 젠킨스에서 Jenkinsfile path를 변경해주어야 함)
+#### 1-1.젠킨스 워커 노드에 Docker로 빌드 상황을 추적하는 서비스를 만듦
 - Jenkins/Dockerfile 생성
 ```Dockerfile
 # Dockerfile
@@ -261,8 +261,8 @@ pipeline {
     }
 }
 ```
-# 2.docker build 실시간 진행 상황 추적하기
-#### 2-1.젠킨스 워커 노드에 Docker로 빌드 상황을 추적하는 서비스를 만듦 (실제 작업 Dockerfile과 구분하기 위해 Jenkins 폴더에 생성, 젠킨스에서 Jenkinsfile path를 변경해주어야 함)
+# 2.docker build 실시간 진행 상황 추적하기 (실제 작업 Dockerfile과 구분하기 위해 Jenkins 폴더에 생성, 젠킨스에서 Jenkinsfile path를 변경해주어야 함)
+#### 2-1.위에 있는 컨테이너 생성 필요
 #### 2-2.sh "(docker build --progress=plain -t test:latest . 2>&1) | tee Jenkins/build.log"로 bulid.log에 로그를 기록하고 실시간으로 감시해서 위의 컨테이너에게 알려주는 서비스 추가
 ```Dockerfile
 # docker-compose.yml
